@@ -80,17 +80,26 @@ public abstract class AbstractXmlApplicationContext extends AbstractRefreshableC
 	@Override
 	protected void loadBeanDefinitions(DefaultListableBeanFactory beanFactory) throws BeansException, IOException {
 		// Create a new XmlBeanDefinitionReader for the given BeanFactory.
+		// 给这个 BeanFactory 实例化一个 XmlBeanDefinitionReader
 		XmlBeanDefinitionReader beanDefinitionReader = new XmlBeanDefinitionReader(beanFactory);
 
 		// Configure the bean definition reader with this context's
 		// resource loading environment.
 		beanDefinitionReader.setEnvironment(this.getEnvironment());
+		// 为 beanDefinition 读取器设置 资源加载器，由于本类的基类 AbstractApplicationContext 继承了 DefaultResourceLoader，因此，本容器自身也是一个资源加载器
 		beanDefinitionReader.setResourceLoader(this);
+		/*
+			设置 SAX 解析器，SAX（simple API for XML）是另一种 XML 解析方法。相比于 DOM，SAX 速度更快，占用内存更小。
+			它逐行扫描文档，一边扫描一边解析。
+			相比于先将整个 XML 文件扫描近内存，再进行解析的 DOM，SAX 可以在解析文档的任意时刻停止解析，但操作也比 DOM 复杂。
+		 */
 		beanDefinitionReader.setEntityResolver(new ResourceEntityResolver(this));
 
 		// Allow a subclass to provide custom initialization of the reader,
 		// then proceed with actually loading the bean definitions.
+		// 初始化 BeanDefinitionReader，该方法同时启用了 Xml 的校验机制，其实这个是提供给子类覆写的，
 		initBeanDefinitionReader(beanDefinitionReader);
+		// 重点！！！Bean 读取器真正实现加载的方法
 		loadBeanDefinitions(beanDefinitionReader);
 	}
 
@@ -107,6 +116,8 @@ public abstract class AbstractXmlApplicationContext extends AbstractRefreshableC
 	}
 
 	/**
+	 * 用传进来的 XmlBeanDefinitionReader 读取器加载 Xml 文件中的 BeanDefinition
+	 *
 	 * Load the bean definitions with the given XmlBeanDefinitionReader.
 	 * <p>The lifecycle of the bean factory is handled by the {@link #refreshBeanFactory}
 	 * method; hence this method is just supposed to load and/or register bean definitions.
