@@ -16,6 +16,6 @@ public class ApplicationLoader {
 		ApplicationContext applicationContext = new ClassPathXmlApplicationContext("classpath:applicationContext.xml");
 		Person person = applicationContext.getBean(Person.class);
 		Man man = applicationContext.getBean(Man.class);
-		System.out.println("启动成功===================person="+person+"============man="+man);
+		System.out.println("启动成功===================person="+person+"==============man="+man);
 	}
 }
