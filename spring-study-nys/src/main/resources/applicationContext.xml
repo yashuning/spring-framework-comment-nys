@@ -1,11 +1,30 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <beans xmlns="http://www.springframework.org/schema/beans"
 	   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-	   xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
+	   xmlns:context="http://www.springframework.org/schema/context"
+	   xsi:schemaLocation="
+	   		http://www.springframework.org/schema/beans
+	   		http://www.springframework.org/schema/beans/spring-beans.xsd
+	   		http://www.springframework.org/schema/context
+	   		http://www.springframework.org/schema/context/spring-context.xsd">
 
-	<bean id="person" class="com.spring.study.nys.domain.Person">
+	<context:annotation-config/>
+
+	<bean id="man" class="com.spring.study.nys.domain.Man">
+		<property name="manName" value="男人的名字"/>
+	</bean>
+
+	<bean id="person" class="com.spring.study.nys.domain.Person" init-method="init">
 		<property name="age" value="26"/>
 		<property name="name" value="ningyashu"/>
+	</bean>
+
+	<!-- PostProcessor配置测试 -->
+<!--	<bean id="myBeanPostProcessor" class="com.spring.study.nys.domain.MyBeanPostProcessor">-->
+<!--	</bean>-->
+
+	<!-- BeanFactoryPostProcessor配置测试 -->
+	<bean id="myBeanFactoryPostProcessor" class="com.spring.study.nys.domain.MyBeanFactoryPostProcessor">
 	</bean>
 
 </beans>
