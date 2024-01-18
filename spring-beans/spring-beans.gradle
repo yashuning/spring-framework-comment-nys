@@ -29,7 +29,9 @@ compileGroovy {
 // compileGroovy.dependsOn = compileGroovy.taskDependencies.values - "compileJava"
 // compileKotlin.dependsOn(compileGroovy)
 // compileKotlin.classpath += files(compileGroovy.destinationDir)
-def deps = compileGroovy.taskDependencies.immutableValues + compileGroovy.taskDependencies.mutableValues
+// 2023-01-17 编译-- 构建报错， 报错信息:No such property: immutableValues for class: org.gradle.api.internal.tasks.DefaultTaskDependency 和 循环依赖报错
+// 解决方案：参考 https://blog.csdn.net/ye201622021113/article/details/109905283
+def deps = compileGroovy.taskDependencies.values
 compileGroovy.dependsOn = deps - "compileJava"
 compileKotlin.dependsOn(compileGroovy)
 compileKotlin.classpath += files(compileGroovy.destinationDir)
